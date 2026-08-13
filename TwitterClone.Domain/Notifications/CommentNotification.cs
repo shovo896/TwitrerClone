@@ -4,6 +4,7 @@ public sealed class CommentNotification : Notification
 {
     public CommentNotification(Guid recipientId, Guid actorId, Guid tweetId, string comment) : base(recipientId, actorId)
     {
+        if (actorId == Guid.Empty) throw new ArgumentException("Actor is required.", nameof(actorId));
         if (tweetId == Guid.Empty) throw new ArgumentException("Tweet is required.", nameof(tweetId));
         if (string.IsNullOrWhiteSpace(comment)) throw new ArgumentException("Comment is required.", nameof(comment));
         ActorId = actorId;
