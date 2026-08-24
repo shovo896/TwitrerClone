@@ -10,4 +10,5 @@ public sealed class SystemNotification : Notification
 
     public string Message { get; }
     public override string Type => "System";
+    public override string GetMessage() => Message;
 }

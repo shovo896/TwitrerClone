@@ -16,4 +16,5 @@ public sealed class CommentNotification : Notification
     public Guid TweetId { get; }
     public string Comment { get; }
     public override string Type => "Comment";
+    public override string GetMessage() => $"User with ID {ActorId} commented on your tweet: {Comment}";
 }

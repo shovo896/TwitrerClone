@@ -12,5 +12,7 @@ public abstract class Notification : BaseEntity
 
     public Guid RecipientId { get; }
     public abstract string Type { get; }
+    public string GetNotificationInfo() => $"RecipientId: {RecipientId}, Notification Type: {Type}";
     public override string Describe() => $"{Type} notification for {RecipientId}";
+    public abstract string GetMessage();
 }

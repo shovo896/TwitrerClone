@@ -15,6 +15,7 @@ Notification[] notifications =
     new LikeNotification(alice.Id, bob.Id, tweet.Id),
     new CommentNotification(alice.Id, bob.Id, tweet.Id, "Good explanation."),
     new FriendRequestNotification(alice.Id, bob.Id),
+    new MentionNotification(alice.Id, bob.Id, tweet.Id),
     new SystemNotification(bob.Id, "Welcome to TwitterClone.")
 ];
 
@@ -31,4 +32,5 @@ Console.WriteLine($"Entity count: {entities.Length}");
 foreach (var notification in notifications)
 {
     Console.WriteLine(notification.Describe());
+    Console.WriteLine(notification.GetMessage());
 }
