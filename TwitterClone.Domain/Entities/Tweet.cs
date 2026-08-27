@@ -1,22 +1,21 @@
 namespace TwitterClone.Domain.Entities;
 
-public class Tweet
+using TwitterClone.Domain.Shared;
+
+public class Tweet : BaseEntity
 {
-    private readonly Guid _id;
     private readonly Guid _authorId;
     private string _content = string.Empty;
 
-    public Tweet(Guid authorId, string content)
+    public Tweet(Guid authorId, string content) : base(authorId)
     {
         if (authorId == Guid.Empty)
             throw new ArgumentException("Author is required.", nameof(authorId));
 
-        _id = Guid.NewGuid();
         _authorId = authorId;
         SetContent(content);
     }
 
-    public Guid Id => _id;
     public Guid AuthorId => _authorId;
     public string Content => _content;
 
@@ -30,4 +29,6 @@ public class Tweet
 
         _content = content.Trim();
     }
+
+    public override string Describe() => $"Tweet: {Content}";
 }
