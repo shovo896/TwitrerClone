@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TwitterClone - Home</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="index.html" aria-label="TwitterClone home">TwitterClone</a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link active" href="index.html"><span>Home</span></a>
+        <a class="nav-link" href="#"><span>Explore</span></a>
+        <a class="nav-link" href="#"><span>Notifications</span></a>
+        <a class="nav-link" href="#"><span>Messages</span></a>
+        <a class="nav-link" href="#"><span>Profile</span></a>
+      </nav>
+
+      <a class="compose-button" href="#compose">Post</a>
+
+      <div class="signed-user">
+        <img src="images/avatar-1.svg" alt="Shuvo avatar" />
+        <div>
+          <strong>Shuvo</strong>
+          <span>@shuvo896</span>
+        </div>
+      </div>
+
+      <a class="auth-link" href="login.html">Login</a>
+    </aside>
+
+    <main class="feed" aria-label="Twitter feed">
+      <header class="feed-header">
+        <h1>Home</h1>
+        <a href="register.html">Create account</a>
+      </header>
+
+      <section class="composer" id="compose" aria-label="Create a post">
+        <img src="images/avatar-1.svg" alt="Shuvo avatar" />
+        <form>
+          <textarea placeholder="What is happening?" maxlength="280" aria-label="Post content"></textarea>
+          <div class="composer-footer">
+            <div class="composer-tools" aria-hidden="true">
+              <span>Image</span>
+              <span>Poll</span>
+              <span>Emoji</span>
+            </div>
+            <button type="submit">Post</button>
+          </div>
+        </form>
+      </section>
+
+      <article class="post">
+        <img class="avatar" src="images/avatar-2.svg" alt="Nabila avatar" />
+        <div class="post-body">
+          <div class="post-meta">
+            <strong>Nabila Rahman</strong>
+            <span>@nabila_dev</span>
+            <span>2h</span>
+          </div>
+          <p>Class 8 assignment update: Twitter home page, login page, and registration page are now connected with clean navigation.</p>
+          <div class="post-actions">
+            <button type="button">Reply 12</button>
+            <button type="button">Repost 8</button>
+            <button type="button">Like 56</button>
+            <button type="button">Share</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <img class="avatar" src="images/avatar-3.svg" alt="Ariyan avatar" />
+        <div class="post-body">
+          <div class="post-meta">
+            <strong>Ariyan Hasan</strong>
+            <span>@ariyan_codes</span>
+            <span>4h</span>
+          </div>
+          <p>Responsive layout matters. Sidebar, center feed, and trend panel should stay readable on laptop, tablet, and mobile screens.</p>
+          <div class="preview-card">
+            <h2>Frontend Practice</h2>
+            <p>Semantic HTML, reusable CSS variables, forms, buttons, cards, and media queries.</p>
+          </div>
+          <div class="post-actions">
+            <button type="button">Reply 7</button>
+            <button type="button">Repost 15</button>
+            <button type="button">Like 88</button>
+            <button type="button">Share</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <img class="avatar" src="images/avatar-4.svg" alt="Tania avatar" />
+        <div class="post-body">
+          <div class="post-meta">
+            <strong>Tania Islam</strong>
+            <span>@tania_ui</span>
+            <span>1d</span>
+          </div>
+          <p>Small details improve the page: focus states, hover states, form validation, and consistent spacing.</p>
+          <div class="post-actions">
+            <button type="button">Reply 5</button>
+            <button type="button">Repost 10</button>
+            <button type="button">Like 41</button>
+            <button type="button">Share</button>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <aside class="right-panel" aria-label="Trends and suggestions">
+      <label class="search-box">
+        <span>Search</span>
+        <input type="search" placeholder="Search TwitterClone" />
+      </label>
+
+      <section class="panel-card">
+        <h2>Trends for you</h2>
+        <a href="#">
+          <span>Programming</span>
+          <strong>#AspNetCourse</strong>
+          <small>18.4K posts</small>
+        </a>
+        <a href="#">
+          <span>Bangladesh</span>
+          <strong>#TwitterClone</strong>
+          <small>9,820 posts</small>
+        </a>
+        <a href="#">
+          <span>Web Development</span>
+          <strong>#Class8Assignment</strong>
+          <small>4,210 posts</small>
+        </a>
+      </section>
+
+      <section class="panel-card">
+        <h2>Who to follow</h2>
+        <div class="follow-row">
+          <img src="images/avatar-2.svg" alt="Nabila avatar" />
+          <div>
+            <strong>Nabila</strong>
+            <span>@nabila_dev</span>
+          </div>
+          <button type="button">Follow</button>
+        </div>
+        <div class="follow-row">
+          <img src="images/avatar-3.svg" alt="Ariyan avatar" />
+          <div>
+            <strong>Ariyan</strong>
+            <span>@ariyan_codes</span>
+          </div>
+          <button type="button">Follow</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+</body>
+</html>
