@@ -2,7 +2,7 @@ namespace TwitterClone.Domain.Entities;
 
 using TwitterClone.Domain.Shared;
 
-public class Tweet : BaseEntity
+public class Tweet : BaseEntity, ILikeable
 {
     private readonly Guid _authorId;
     private string _content = string.Empty;
@@ -18,6 +18,7 @@ public class Tweet : BaseEntity
 
     public Guid AuthorId => _authorId;
     public string Content => _content;
+    public bool CanBeLiked() => !string.IsNullOrWhiteSpace(Content);
 
     public void SetContent(string content)
     {
