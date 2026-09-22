@@ -1,0 +1,438 @@
+:root {
+  --bg: #f7f9f9;
+  --surface: #ffffff;
+  --surface-muted: #eff3f4;
+  --text: #0f1419;
+  --muted: #536471;
+  --border: #eff3f4;
+  --brand: #1d9bf0;
+  --brand-dark: #0f7fc9;
+  --like: #f91880;
+  --repost: #00ba7c;
+  --radius: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 610px) 320px;
+  gap: 18px;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 14px;
+}
+
+.sidebar,
+.right-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 20px 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.brand {
+  color: var(--brand);
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.main-nav {
+  display: grid;
+  gap: 6px;
+}
+
+.nav-link {
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 20px;
+  padding: 13px 16px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.compose-button,
+.composer button,
+.follow-row button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+}
+
+.compose-button {
+  display: inline-flex;
+  justify-content: center;
+  padding: 14px 22px;
+}
+
+.compose-button:hover,
+.composer button:hover {
+  background: var(--brand-dark);
+}
+
+.signed-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  border-radius: 999px;
+  padding: 10px;
+}
+
+.signed-user:hover {
+  background: var(--surface-muted);
+}
+
+.signed-user img,
+.composer img,
+.avatar,
+.follow-row img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+}
+
+.signed-user span,
+.post-meta span,
+.panel-card span,
+.panel-card small,
+.follow-row span {
+  color: var(--muted);
+}
+
+.signed-user div,
+.follow-row div {
+  display: grid;
+}
+
+.auth-link {
+  border: 1px solid var(--brand);
+  border-radius: 999px;
+  color: var(--brand);
+  font-weight: 700;
+  padding: 10px 16px;
+  text-align: center;
+}
+
+.feed {
+  min-height: 100vh;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.feed-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  padding: 14px 20px;
+}
+
+.feed-header h1 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.feed-header a {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.composer {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.composer form {
+  flex: 1;
+}
+
+.composer textarea {
+  width: 100%;
+  min-height: 72px;
+  resize: vertical;
+  border: 0;
+  outline: 0;
+  font-size: 20px;
+}
+
+.composer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.composer-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: var(--brand);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.composer button {
+  padding: 9px 20px;
+}
+
+.post {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.post:hover {
+  background: #fdfdfd;
+}
+
+.post-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.post p {
+  margin: 6px 0 12px;
+  line-height: 1.5;
+}
+
+.preview-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #e8f5fd, #ffffff);
+  padding: 18px;
+}
+
+.preview-card h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.preview-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.post-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  max-width: 430px;
+}
+
+.post-actions button {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 10px;
+}
+
+.post-actions button:hover {
+  background: rgba(29, 155, 240, 0.1);
+  color: var(--brand);
+}
+
+.post-actions button:nth-child(2):hover {
+  background: rgba(0, 186, 124, 0.1);
+  color: var(--repost);
+}
+
+.post-actions button:nth-child(3):hover {
+  background: rgba(249, 24, 128, 0.1);
+  color: var(--like);
+}
+
+.right-panel {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.search-box {
+  display: grid;
+  gap: 6px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  padding: 10px 16px;
+}
+
+.search-box span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.search-box input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.panel-card {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface-muted);
+}
+
+.panel-card h2 {
+  margin: 0;
+  padding: 16px;
+  font-size: 20px;
+}
+
+.panel-card a,
+.follow-row {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid #dde4e7;
+  padding: 14px 16px;
+}
+
+.panel-card a:hover,
+.follow-row:hover {
+  background: #e7ecef;
+}
+
+.follow-row {
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+}
+
+.follow-row button {
+  background: var(--text);
+  padding: 8px 15px;
+}
+
+@media (max-width: 1020px) {
+  .app-shell {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .right-panel {
+    display: none;
+  }
+
+  .brand,
+  .nav-link span,
+  .signed-user div,
+  .auth-link {
+    font-size: 0;
+  }
+
+  .brand::before {
+    content: "TC";
+    font-size: 22px;
+  }
+
+  .nav-link::before {
+    content: "•";
+    font-size: 28px;
+  }
+
+  .compose-button {
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .compose-button::before {
+    content: "+";
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    display: block;
+    padding: 0;
+  }
+
+  .sidebar {
+    position: sticky;
+    z-index: 3;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 10px 14px;
+  }
+
+  .main-nav {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .nav-link {
+    padding: 8px;
+  }
+
+  .compose-button,
+  .signed-user {
+    display: none;
+  }
+
+  .feed {
+    border: 0;
+  }
+
+  .composer,
+  .post {
+    padding: 14px;
+  }
+}

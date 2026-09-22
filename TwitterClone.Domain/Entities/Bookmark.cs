@@ -1,35 +1,20 @@
-﻿namespace Twitter_Clone.Entities;
+using TwitterClone.Domain.Shared;
 
-public class Bookmark
+namespace TwitterClone.Domain.Entities;
+
+public sealed class Bookmark : BaseEntity
 {
-    private Guid _id;
-    private Guid _userId;
-    private Guid _tweetId;
-    private DateTime _createdAt;
-    private DateTime? _modifiedAt;
-    private Guid _createdBy;
-    private Guid? _modifiedBy;
-
-    public Bookmark()
+    public Bookmark(Guid userId, Guid tweetId) : base(userId)
     {
-        _id = Guid.NewGuid();
-        _createdAt = DateTime.UtcNow;
+        if (userId == Guid.Empty) throw new ArgumentException("User is required.", nameof(userId));
+        if (tweetId == Guid.Empty) throw new ArgumentException("Tweet is required.", nameof(tweetId));
+
+        UserId = userId;
+        TweetId = tweetId;
     }
 
-    public Guid Id
-    {
-        get { return _id; }
-    }
+    public Guid UserId { get; }
+    public Guid TweetId { get; }
 
-    public Guid UserId
-    {
-        get { return _userId; }
-        set { _userId = value; }
-    }
-
-    public Guid TweetId => _tweetId;
-    public DateTime CreatedAt => _createdAt;
-    public DateTime? ModifiedAt => _modifiedAt;
-    public Guid CreatedBy => _createdBy;
-    public Guid? ModifiedBy => _modifiedBy;
+    public override string Describe() => $"{base.Describe()} bookmarked tweet {TweetId} for user {UserId}";
 }

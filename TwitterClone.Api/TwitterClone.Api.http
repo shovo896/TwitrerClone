@@ -1,0 +1,30 @@
+@host = http://localhost:5057
+
+GET {{host}}/health
+Accept: application/json
+
+###
+
+GET {{host}}/api/tweets
+Accept: application/json
+
+###
+
+GET {{host}}/api/tweets/1
+Accept: application/json
+
+###
+
+POST {{host}}/api/tweets
+Content-Type: application/json
+
+{
+  "text": "My first API tweet!",
+  "author": "Shuvo",
+  "handle": "@shuvo"
+}
+
+###
+
+GET {{host}}/api/users
+Accept: application/json

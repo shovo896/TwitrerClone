@@ -1,19 +1,20 @@
 namespace TwitterClone.Domain.Entities;
 
-public class User
+using TwitterClone.Domain.Shared;
+using TwitterClone.Domain.Notifications;
+
+public class User : BaseEntity, IFollowable, INotifiable
 {
-    private readonly Guid _id;
     private string _username = string.Empty;
     private string _email = string.Empty;
+    private readonly List<Guid> _following = [];
+    private readonly List<Notification> _unreadNotifications = [];
 
-    public User(string username, string email)
+    public User(string username, string email, Guid? createdBy = null) : base(createdBy)
     {
-        _id = Guid.NewGuid();
         Username = username;
         Email = email;
     }
-
-    public Guid Id => _id;
 
     public string Username
     {
@@ -25,6 +26,37 @@ public class User
     {
         get => _email;
         private set => _email = ValidateRequired(value, nameof(Email));
+    }
+
+    public IReadOnlyCollection<Guid> Following => _following.AsReadOnly();
+    public IReadOnlyCollection<Notification> UnreadNotifications => _unreadNotifications.AsReadOnly();
+
+    public void Follow(Guid userId)
+    {
+        if (userId == Guid.Empty) throw new ArgumentException("User is required.", nameof(userId));
+        if (userId == Id) throw new ArgumentException("A user cannot follow themselves.", nameof(userId));
+
+        if (!_following.Contains(userId))
+            _following.Add(userId);
+    }
+
+    public void Unfollow(Guid userId)
+    {
+        _following.Remove(userId);
+    }
+
+    public void AddNotification(Notification notification)
+    {
+        ArgumentNullException.ThrowIfNull(notification);
+
+        if (!_unreadNotifications.Contains(notification))
+            _unreadNotifications.Add(notification);
+    }
+
+    public void ReadNotification(Notification notification)
+    {
+        ArgumentNullException.ThrowIfNull(notification);
+        _unreadNotifications.Remove(notification);
     }
 
     private static string ValidateRequired(string value, string fieldName)

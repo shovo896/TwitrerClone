@@ -21,5 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterClone.Domain\TwitterClone.Domain.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 </Project>
