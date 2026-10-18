@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
 builder.Services.AddSingleton<TweetStore>();
+builder.Services.AddSingleton<SocialStore>();
 builder.Services
     .AddOptions<TwitterSettings>()
     .Bind(builder.Configuration.GetSection(TwitterSettings.SectionName))
