@@ -1,44 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using TwitterClone.Api.Models;
-using TwitterClone.Api.Options;
-using TwitterClone.Api.Services;
+using TwitterClone.Api.Data;
+using TwitterClone.Api.Dtos;
 
 namespace TwitterClone.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class TweetsController(TweetStore store, IOptions<TwitterSettings> settings) : ControllerBase
+public sealed class TweetsController(TweetRepository tweets, UserRepository users) : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType<IReadOnlyCollection<TweetResponse>>(StatusCodes.Status200OK)]
-    public IActionResult GetTweets() => Ok(new
-    {
-        maxTweetLength = settings.Value.MaxTweetLength,
-        tweets = store.GetAll()
-    });
+    public IActionResult GetTweets([FromQuery] Guid? userId) => Ok(tweets.GetTweets(userId));
 
-    [HttpGet("{id:int}")]
-    [ProducesResponseType<TweetResponse>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<TweetResponse> GetTweet(int id)
-    {
-        var tweet = store.GetById(id);
-        return tweet is null ? NotFound() : Ok(tweet);
-    }
+    [HttpGet("{id:guid}")]
+    public ActionResult<TweetDto> GetTweetById(Guid id) => tweets.GetTweetById(id) is { } tweet ? Ok(tweet) : NotFound();
 
     [HttpPost]
-    [ProducesResponseType<TweetResponse>(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<TweetResponse> CreateTweet(CreateTweetRequest request)
+    public ActionResult<TweetDto> CreateTweet(CreateTweetRequest request)
     {
-        if (request.Text.Trim().Length > settings.Value.MaxTweetLength)
-        {
-            ModelState.AddModelError(nameof(request.Text), $"Tweet cannot exceed {settings.Value.MaxTweetLength} characters.");
-            return ValidationProblem(ModelState);
-        }
-
-        var tweet = store.Create(request);
-        return CreatedAtAction(nameof(GetTweet), new { id = tweet.Id }, tweet);
+        if (users.GetUserById(request.AuthorId) is null) return BadRequest("Author does not exist.");
+        try { var tweet = tweets.AddTweet(request); return CreatedAtAction(nameof(GetTweetById), new { id = tweet.Id }, tweet); }
+        catch (ArgumentException exception) { return BadRequest(exception.Message); }
     }
+
+    [HttpPut("{id:guid}")]
+    public ActionResult<TweetDto> UpdateTweet(Guid id, UpdateTweetRequest request)
+    {
+        try { return tweets.UpdateTweet(id, request) is { } tweet ? Ok(tweet) : NotFound(); }
+        catch (ArgumentException exception) { return BadRequest(exception.Message); }
+    }
+
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteTweet(Guid id) => tweets.DeleteTweet(id) ? NoContent() : NotFound();
 }
