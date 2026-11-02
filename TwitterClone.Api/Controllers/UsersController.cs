@@ -1,41 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
-using TwitterClone.Api.Models;
-using TwitterClone.Api.Services;
+using TwitterClone.Api.Data;
+using TwitterClone.Api.Dtos;
+using PhoneUpdateRequest = TwitterClone.Api.Models.UpdatePhoneRequest;
 
 namespace TwitterClone.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class UsersController(SocialStore store, IConfiguration configuration) : ControllerBase
+public sealed class UsersController(UserRepository users, IConfiguration configuration) : ControllerBase
 {
     [HttpGet]
-    public IActionResult GetUsers() => Ok(store.Users);
+    public IActionResult GetUsers() => Ok(users.GetUsers());
 
     [HttpPost]
-    public ActionResult<SocialUser> CreateUser(CreateUserRequest request)
+    public ActionResult<UserDto> CreateUser(CreateUserRequest request)
     {
-        var user = store.AddUser(request.Username, request.Email);
+        if (users.GetUserByEmail(request.Email) is not null) return Conflict("A user with this email already exists.");
+        var user = users.AddUser(request);
         return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
     }
 
     [HttpGet("{id:guid}")]
-    public ActionResult<SocialUser> GetUserById(Guid id) => store.GetUser(id) is { } user ? Ok(user) : NotFound();
+    public ActionResult<UserDto> GetUserById(Guid id) => users.GetUserById(id) is { } user ? Ok(user) : NotFound();
 
     [HttpPut("{id:guid}")]
-    public ActionResult<SocialUser> UpdateUser(Guid id, CreateUserRequest request) =>
-        store.UpdateUser(id, request.Username, request.Email) is { } user ? Ok(user) : NotFound();
+    public ActionResult<UserDto> UpdateUser(Guid id, UpdateUserRequest request)
+    {
+        var duplicate = users.GetUserByEmail(request.Email);
+        if (duplicate is not null && duplicate.Id != id) return Conflict("A user with this email already exists.");
+        return users.UpdateUser(id, request) is { } user ? Ok(user) : NotFound();
+    }
 
     [HttpPatch("{id:guid}/phoneNumber")]
-    public ActionResult<SocialUser> UpdatePhone(Guid id, UpdatePhoneRequest request) =>
-        store.UpdatePhone(id, request.PhoneNumber) is { } user ? Ok(user) : NotFound();
+    public ActionResult<UserDto> UpdatePhone(Guid id, PhoneUpdateRequest request) => users.UpdatePhone(id, request.PhoneNumber) is { } user ? Ok(user) : NotFound();
 
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteUser(Guid id) => store.RemoveUser(id) ? NoContent() : NotFound();
+    public IActionResult DeleteUser(Guid id) => users.DeleteUser(id) ? NoContent() : NotFound();
 
     [HttpGet("app-info")]
-    public IActionResult GetAppInfo() => Ok(new
-    {
-        appName = configuration["AppName"],
-        environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"
-    });
+    public IActionResult GetAppInfo() => Ok(new { appName = configuration["AppName"], environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production" });
 }
