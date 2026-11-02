@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TwitterClone.Api.Data;
 using TwitterClone.Api.Dtos;
+using PhoneUpdateRequest = TwitterClone.Api.Models.UpdatePhoneRequest;
 
 namespace TwitterClone.Api.Controllers;
 
@@ -29,6 +30,9 @@ public sealed class UsersController(UserRepository users, IConfiguration configu
         if (duplicate is not null && duplicate.Id != id) return Conflict("A user with this email already exists.");
         return users.UpdateUser(id, request) is { } user ? Ok(user) : NotFound();
     }
+
+    [HttpPatch("{id:guid}/phoneNumber")]
+    public ActionResult<UserDto> UpdatePhone(Guid id, PhoneUpdateRequest request) => users.UpdatePhone(id, request.PhoneNumber) is { } user ? Ok(user) : NotFound();
 
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteUser(Guid id) => users.DeleteUser(id) ? NoContent() : NotFound();
