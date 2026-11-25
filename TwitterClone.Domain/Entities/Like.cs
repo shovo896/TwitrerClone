@@ -19,6 +19,8 @@ public class Like
         TweetId = tweetId;
         LikedAt = DateTime.UtcNow;
         CreatedBy = authenticatedUserId;
+        
+        
     }
 
     public Guid Id { get; }
